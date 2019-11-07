@@ -31,10 +31,27 @@ class Student extends MY_Controller {
     }
     public function create()
     {
-        if($this->student_model->add_student($this->process_input())) {
-            echo '{"status": "ok"}';
+        $this->load->library('form_validation');
+        $this->form_validation->set_error_delimiters('', '');
+        if($this->form_validation->run('addMember')) {
+            if($this->student_model->add_student($this->process_input())) {
+                $result = array('status'=>'ok');
+            } else {
+                $result = array('status' => 'add_error');
+            }
         } else {
-            echo '{"status": "error","reason": "Lỗi khi thêm dữ liệu"}';
+            $result = array(
+                'status'    => 'valid_error',
+                'track_err' => array(
+                    'fullname'  => form_error('fullname'),
+                    'email'     => form_error('email'),
+                    'address'   => form_error('address'),
+                    'course'    => form_error('course'),
+                    'phone'    => form_error('phone'),
+                    'dob'       => form_error('dob'),
+                )
+            );
         }
+        echo json_encode($result);
     }
 }

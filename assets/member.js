@@ -3,27 +3,8 @@ function showErr(currentInput, msg) {
     currentInput.parent().find('p.err').text(msg);
 }
 
-$('.btn').click(function() {
-    $('html').css('overflow','hidden');
-    $('.overlay-bg').toggleClass('show');
-    $('.form-add').toggleClass('show');
-    $('p.err').remove();
-});
-$('.overlay-bg').click(function() {
-    $('html').css('overflow','auto');
-    $('.overlay-bg').removeClass('show');
-    $('.form-add').removeClass('show');
-    $('.success').removeClass('show');
-    $('p.err').remove();
-});
-$('#submit').click(function(event){
-    // init
+function clientIsValid() {
     var err = [];
-    event.preventDefault();
-    
-    $('.overlay-bg').addClass('show');
-    $('.form-add').addClass('show');
-
     $('.form-add :input').each(function(){
         var msg = '';
 
@@ -56,40 +37,85 @@ $('#submit').click(function(event){
             }
         }
     })
-
     if(err.length === 0) {
-        var formData = new FormData();
-        $('.form-add :input').each(function(){
-            if($(this).attr('type') !== 'file') {
-                if($(this).attr('name') === 'bio') {
-                    if($(this).prop('checked')) {
-                        formData.append($(this).attr('name'), $(this).val());
-                    }
-                } else {
+        return true;
+    }
+    return false;
+}
+
+function formData() {
+    var formData = new FormData();
+    $('.form-add :input').each(function(){
+        if($(this).attr('type') !== 'file') {
+            if($(this).attr('name') === 'bio') {
+                if($(this).prop('checked')) {
                     formData.append($(this).attr('name'), $(this).val());
                 }
             } else {
-                formData.append($(this).attr('name'), $(this).prop('files')[0]);
+                formData.append($(this).attr('name'), $(this).val());
             }
-        })
+        } else {
+            formData.append($(this).attr('name'), $(this).prop('files')[0]);
+        }
+    })
+    return formData;
+}
+
+$('#btn-add').click(function() {
+    $('html').css('overflow','hidden');
+    $('#overlay-bg').addClass('show');
+    $('.form-add').addClass('show');
+});
+
+$('#overlay-bg').click(function() {
+    $('html').css('overflow','auto');
+    $('#overlay-bg').removeClass('show');
+    $('.form-add').removeClass('show');
+    $('.success').removeClass('show');
+});
+
+$('#submit').click(function(event){
+    event.preventDefault();
+    
+    $('#overlay-bg').addClass('show');
+    $('.form-add').addClass('show');
+    $('p.err').remove();
+    
+    // Client-side validate
+    if(clientIsValid()) {
         $.ajax({
             url:  'http://localhost/SinhVienAPS/index.php/student/create',
             type: 'POST',
-            data: formData,
+            data: formData(),
             processData: false,
             contentType: false,
             success: function(data)
             {
                 var jsonData = JSON.parse(data);
-                if(jsonData.status === 'error') {
-                    console.log('Lỗi');
-                    console.log(jsonData.reason);
-                } else {
-                    console.log('Thành công');
-                    $('html').css('overflow','auto');
-                    $('.form-add').trigger('reset');
-                    $('.form-add').removeClass('show');
-                    $('.success').addClass('show');
+                switch(jsonData.status) {
+                    case 'ok':
+                        console.log('Thành công');
+                        
+                        $('html').css('overflow','auto');
+                        $('.form-add').trigger('reset');
+                        $('.form-add').removeClass('show');
+                        $('.success').addClass('show');
+                        break;
+                    case 'valid_error':
+                        console.log('CI validate err');
+                        $(".form-add").animate({ scrollTop: 0 }, "slow");
+                        $.each(jsonData.track_err, function(key, value) {
+                            $('.form-add :input').each(function(){
+                                if($(this).attr('name') === key && value !== '') {
+                                    showErr($(this), value);
+                                }
+                            });
+                        });
+                        break;
+                    case 'add_error':
+                        console.log('Add err');
+                        $(".form-add").animate({ scrollTop: 0 }, "slow");
+                        break;
                 }
             }
         })

@@ -25,7 +25,7 @@
 .show {
     display: block !important;
 }
-.overlay-bg {
+#overlay-bg {
     display: none;
     position: fixed;
     top: 0;
