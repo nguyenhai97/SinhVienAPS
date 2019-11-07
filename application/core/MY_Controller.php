@@ -6,9 +6,7 @@ class MY_Controller extends CI_Controller {
     }
     public function view($data = '')
     {
-        $this->load->view('partical/head', $data);
         $this->load->view('partical/master_layout', $data);
-        $this->load->view('partical/foot', $data);
     }
     public function process_input($extra_fields = array())
     {
