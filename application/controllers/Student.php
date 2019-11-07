@@ -4,18 +4,16 @@ class Student extends MY_Controller {
     {
         parent::__construct();
         $this->load->model('student_model');
-        $this->load->helper(array('form', 'url'));
+        $this->load->helper(array('form', 'url', 'page'));
     }
     public function index($current_page=1)
     {
-        $step = 5;
-        $item_index = $current_page * $step - $step;
         $data['title'] = "Danh sách sinh viên";
-        $data['students'] = $this->student_model->get_student_info($item_index);
+        $data['students'] = $this->student_model->get_student_info(item_index(5,$current_page));
         $data['pagination'] = parent::pagination('http://localhost/SinhVienAPS/page/');
-        $page_layout = $this->load->view('student/index', $data, TRUE);
+        $data['page_layout'] = $this->load->view('student/index', $data, TRUE);
 
-        parent::view($page_layout);
+        parent::view($data);
     }
     public function process_input()
     {

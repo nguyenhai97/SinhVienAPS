@@ -7,7 +7,7 @@ class MY_Controller extends CI_Controller {
     public function view($data = '')
     {
         $this->load->view('partical/head', $data);
-        $this->load->view('student/index', $data);
+        $this->load->view('partical/master_layout', $data);
         $this->load->view('partical/foot', $data);
     }
     public function pagination($base_url)
