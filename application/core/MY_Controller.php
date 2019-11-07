@@ -37,6 +37,8 @@ class MY_Controller extends CI_Controller {
         $config['total_rows'] = $this->student_model->num_row();
         $config['per_page'] = 5;
 
+        $config['first_link'] = 'Về đầu';
+        $config['last_link'] = 'Về cuối';
         $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
         $config['cur_tag_close']    = '</span></li>';
         $config['next_tag_open']    = '<li class="page-item">';

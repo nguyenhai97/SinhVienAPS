@@ -23,8 +23,11 @@ class Student extends MY_Controller {
         if($this->form_validation->run('addMember')) {
             $isUploaded = parent::image_upload('avatar');
             $field['image'] = ($isUploaded === false) ? 'fallback.png' : $isUploaded;
+            $data = parent::process_input($field);
 
-            if($this->student_model->add_student(parent::process_input($field))) {
+            // Remove duplicate date of birth
+            unset($data['dob_holder']);
+            if($this->student_model->add_student($data)) {
                 $result = array('status'=>'ok');
             } else {
                 $result = array('status' => 'add_error');

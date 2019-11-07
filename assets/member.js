@@ -61,10 +61,12 @@ function formData() {
     return formData;
 }
 
-$('#dob').datepicker({
-    todayHighlight: true,
-    autoclose: true,
-    endDate: new Date()
+$('#dob_holder').datepicker({
+    dateFormat: 'dd/mm/yy',
+    altFormat: 'yy-mm-dd',
+    altField:  '#dob',
+    maxDate: '0',
+    defaultDate: '0'
 });
 
 $('#btn-add').click(function() {

@@ -76,8 +76,9 @@
             <input name="phone" type="tel" class="form-control" id="phone">
         </div>
         <div class="form-group">
-            <label for="dob">Ngày tháng năm sinh</label>
-            <input name="dob" type="text" class="form-control" id="dob">
+            <label for="dob_holder">Ngày tháng năm sinh</label>
+            <input name="dob_holder" type="text" class="form-control" id="dob_holder">
+            <input name="dob" type="hidden" id="dob">
         </div>
         <div class="form-group">
             <label for="avatar">Ảnh</label>
