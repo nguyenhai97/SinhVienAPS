@@ -10,6 +10,25 @@ class MY_Controller extends CI_Controller {
         $this->load->view('partical/master_layout', $data);
         $this->load->view('partical/foot', $data);
     }
+    public function process_input($extra_fields = array())
+    {
+        $result = array();
+        $field = $_POST;
+        
+        foreach($field as $key => $value) {
+            $result = array_merge($result, array($key => $value));
+        }
+        // Remove submit input
+        array_pop($result);
+        // Add extra field, usually for input type file since file need to upload first
+        if(sizeof($extra_fields) > 0) {
+            foreach($extra_fields as $key => $value) {
+                $result = array_merge($result, array($key => $value));
+            }
+        }
+
+        return $result;
+    }
     public function pagination($base_url)
     {
         $this->load->library('pagination');
@@ -41,9 +60,7 @@ class MY_Controller extends CI_Controller {
         $config['max_size']      = 1024;
 
         $this->load->library('upload', $config);
-        if(!$this->upload->do_upload($input_name)) {
-            return false;
-        } else {
+        if($this->upload->do_upload($input_name)) {
             $image = $this->upload->data();
             return $image['file_name'];
         }

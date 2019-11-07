@@ -51,7 +51,8 @@
     border-radius: 8px;
     z-index: 9;
     overflow: auto;
-    height: 450px;
+    max-height: 450px;
+    height: 80%;
     scrollbar-width: none;
 }
 .success {

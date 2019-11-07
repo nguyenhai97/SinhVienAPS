@@ -61,6 +61,12 @@ function formData() {
     return formData;
 }
 
+$('#dob').datepicker({
+    todayHighlight: true,
+    autoclose: true,
+    endDate: new Date()
+});
+
 $('#btn-add').click(function() {
     $('html').css('overflow','hidden');
     $('#overlay-bg').addClass('show');
@@ -95,7 +101,7 @@ $('#submit').click(function(event){
                 switch(jsonData.status) {
                     case 'ok':
                         console.log('Thành công');
-                        
+
                         $('html').css('overflow','auto');
                         $('.form-add').trigger('reset');
                         $('.form-add').removeClass('show');

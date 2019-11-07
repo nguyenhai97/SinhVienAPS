@@ -72,19 +72,12 @@
             <input type="text" name="course" class="form-control" id="course">
         </div>
         <div class="form-group">
-            <label for="role">Vai trò</label>
-            <select name="role" class="custom-select" id="role">
-                <option value="1">Sinh viên</option>
-                <option value="2">Giảng viên</option>
-            </select>
-        </div>
-        <div class="form-group">
             <label for="phone">Số điện thoại</label>
             <input name="phone" type="tel" class="form-control" id="phone">
         </div>
         <div class="form-group">
             <label for="dob">Ngày tháng năm sinh</label>
-            <input name="dob" type="date" class="form-control" id="dob">
+            <input name="dob" type="text" class="form-control" id="dob">
         </div>
         <div class="form-group">
             <label for="avatar">Ảnh</label>

@@ -4,7 +4,7 @@ $config = array(
         array(
             'field' => 'fullname',
             'label' => 'Họ và tên',
-            'rules' => 'required|max_length[2]',
+            'rules' => 'required|max_length[150]',
             'errors' => array(
                 'required' => 'Trường %s là bắt buộc',
                 'max_length' => 'Trường %s chỉ nhận tối đa 150 ký tự'

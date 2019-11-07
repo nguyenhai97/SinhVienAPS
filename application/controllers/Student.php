@@ -15,26 +15,16 @@ class Student extends MY_Controller {
 
         parent::view($data);
     }
-    public function process_input()
-    {
-        $input_name = 'avatar';
-        return array(
-            "image"    => (parent::image_upload($input_name) != false) ? parent::image_upload($input_name) : 'fallback.png',
-            "fullname" => $this->input->post('fullname'),
-            "address"  => $this->input->post('address'),
-            "course"   => $this->input->post('course'),
-            "email"    => $this->input->post('email'),
-            "phone"    => $this->input->post('phone'),
-            "dob"      => $this->input->post('dob'),
-            "bio"      => $this->input->post('bio')
-        );
-    }
     public function create()
     {
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('', '');
+
         if($this->form_validation->run('addMember')) {
-            if($this->student_model->add_student($this->process_input())) {
+            $isUploaded = parent::image_upload('avatar');
+            $field['image'] = ($isUploaded === false) ? 'fallback.png' : $isUploaded;
+
+            if($this->student_model->add_student(parent::process_input($field))) {
                 $result = array('status'=>'ok');
             } else {
                 $result = array('status' => 'add_error');
