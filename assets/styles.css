@@ -16,6 +16,9 @@ body {
 .text-success-2 {
     color: #22543D;
 }
+.err::first-letter {
+    text-transform: uppercase;
+}
 .table td, .table th {
     vertical-align: middle;
 }
@@ -86,6 +89,7 @@ body {
 }
 .popup-user {
     padding: 0;
+    width: 320px;
     background: #CBD5E0;
 }
 .popup-user .main-info {
@@ -95,8 +99,8 @@ body {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 .popup-user .info-group {
-    height: 200px;
-    padding: 0 1em;
+    height: 220px;
+    padding: 1em;
     overflow: auto;
     scrollbar-width: none;
 }
@@ -105,9 +109,18 @@ body {
 }
 .popup-user .value {
     color: #1A202C;
-
 }
-
+.fab {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: #c70d3a;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
 /* Animation */
 @keyframes show {
     from{top:100%}

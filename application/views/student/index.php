@@ -101,33 +101,38 @@ echo $date->format('d/m/Y');
     </div>
     <!-- User details -->
     <div class="popup-user">
-        <div class="main-info text-center py-2">
-            <div class="avatar-lg mx-auto">
-                <img src="<?=base_url('upload/' . $student->image)?>" alt="avatar" width="150px">
+        <div class="inner position-relative">
+            <div class="main-info text-center py-2">
+                <div class="avatar-lg mx-auto">
+                    <img src="<?=base_url('upload/' . $student->image)?>" alt="avatar" width="150px">
+                </div>
+                <div class="fullname text-lg font-weight-bold">Nguyễn Văn A</div>
+                <div class="email text-sm text-muted">nva@gmail.com</div>
             </div>
-            <div class="fullname text-lg font-weight-bold">Nguyễn Văn A</div>
-            <div class="email text-sm text-muted">nva@gmail.com</div>
-        </div>
-        <div class="info-group">
-            <div class="item d-flex justify-content-between py-2">
-                <div class="label">Ngày tháng năm sinh:</div>
-                <div class="value">17/03/1997</div>
+            <div class="info-group">
+                <div class="item d-flex justify-content-between py-2">
+                    <div class="label">Ngày tháng năm sinh:</div>
+                    <div class="value">17/03/1997</div>
+                </div>
+                <div class="item d-flex justify-content-between py-2">
+                    <div class="label">Giới tính:</div>
+                    <div class="value">Nam</div>
+                </div>
+                <div class="item d-flex justify-content-between py-2">
+                    <div class="label">Địa chỉ:</div>
+                    <div class="value">ABC</div>
+                </div>
+                <div class="item d-flex justify-content-between py-2">
+                    <div class="label">Số điện thoại:</div>
+                    <div class="value">0987654321</div>
+                </div>
+                <div class="item d-flex justify-content-between py-2">
+                    <div class="label">Lớp học:</div>
+                    <div class="value">CNTT-K14C</div>
+                </div>
             </div>
-            <div class="item d-flex justify-content-between py-2">
-                <div class="label">Giới tính:</div>
-                <div class="value">Nam</div>
-            </div>
-            <div class="item d-flex justify-content-between py-2">
-                <div class="label">Địa chỉ:</div>
-                <div class="value">ABC</div>
-            </div>
-            <div class="item d-flex justify-content-between py-2">
-                <div class="label">Số điện thoại:</div>
-                <div class="value">0987654321</div>
-            </div>
-            <div class="item d-flex justify-content-between py-2">
-                <div class="label">Lớp học:</div>
-                <div class="value">CNTT-K14C</div>
+            <div class="fab">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M6.3 12.3l10-10a1 1 0 0 1 1.4 0l4 4a1 1 0 0 1 0 1.4l-10 10a1 1 0 0 1-.7.3H7a1 1 0 0 1-1-1v-4a1 1 0 0 1 .3-.7zM8 16h2.59l9-9L17 4.41l-9 9V16zm10-2a1 1 0 0 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2h6a1 1 0 0 1 0 2H4v14h14v-6z"/></svg>
             </div>
         </div>
     </div>

@@ -8,6 +8,7 @@ class Student extends MY_Controller
     {
         parent::__construct();
 
+        $this->lang->load('form_validation', 'vi');
         $this->load->model('student_model');
         $this->load->helper(array('form', 'url', 'page'));
     }
@@ -37,12 +38,13 @@ class Student extends MY_Controller
     public function create()
     {
         $this->fields = $this->process_input();
+        // Remove duplicate date of birth
+        unset($this->fields['dob_holder']);
+        
         if ($this->isValid()) {
             $isUploaded = parent::image_upload('avatar');
             $this->fields['image'] = ($isUploaded === false) ? 'fallback.png' : $isUploaded;
 
-            // Remove duplicate date of birth
-            unset($this->fields['dob_holder']);
             if ($this->student_model->add_student($this->fields)) {
                 $result = array(
                     'type' => 'success',
@@ -69,8 +71,8 @@ class Student extends MY_Controller
             switch ($field) {
                 case 'phone':
                     $this->form_validation->set_rules(
-                        'phone',
-                        'Số điện thoại',
+                        $field,
+                        'lang:'.$field,
                         'required|max_length[10]|numeric',
                         array(
                             'required' => 'Trường %s là bắt buộc',
@@ -82,20 +84,20 @@ class Student extends MY_Controller
                 case 'email':
                     $this->form_validation->set_rules(
                         $field,
-                        $field,
+                        'lang:'.$field,
                         'required|max_length[150]|valid_email|is_unique[Student.email]',
                         array(
                             'required' => 'Trường %s là bắt buộc',
                             'max_length' => 'Trường %s chỉ nhận tối đa 150 ký tự',
                             'valid_email' => '%s nhập vào không hợp lệ',
-                            'is_unique' => '%s đã được sử dụng vui lòng nhập Email khác',
+                            'is_unique' => '%s đã được sử dụng vui lòng nhập địa chỉ khác',
                         )
                     );
                     break;
                 case 'address':
                     $this->form_validation->set_rules(
-                        'address',
-                        'Địa chỉ',
+                        $field,
+                        'lang:'.$field,
                         'required|max_length[250]',
                         array(
                             'required' => 'Trường %s là bắt buộc',
@@ -106,7 +108,7 @@ class Student extends MY_Controller
                 default:
                     $this->form_validation->set_rules(
                         $field,
-                        $field,
+                        'lang:'.$field,
                         'required|max_length[150]',
                         array(
                             'required' => 'Trường %s là bắt buộc',
