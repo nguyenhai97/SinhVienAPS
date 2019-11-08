@@ -1,5 +1,6 @@
 <?php
-class MY_Model extends CI_Model {
+class MY_Model extends CI_Model
+{
     public function __construct($table_name)
     {
         $this->load->database();
@@ -13,7 +14,7 @@ class MY_Model extends CI_Model {
     }
     public function addItem($data)
     {
-        if($this->db->insert($GLOBALS['TABLE'], $data)) {
+        if ($this->db->insert($GLOBALS['TABLE'], $data)) {
             return true;
         }
         return false;

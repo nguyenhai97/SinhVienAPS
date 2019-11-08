@@ -1,5 +1,14 @@
+body {
+    background: #EDF2F7;
+}
 .text-title {
     color: #2C5282;
+}
+.text-lg {
+    font-size: 1.5em;
+}
+.text-sm {
+    font-size: 1.1em;
 }
 .text-gray {
     color: #718096;
@@ -13,10 +22,23 @@
 .table tbody tr:hover {
     cursor: pointer;
 }
-.avatar {
+.table tbody tr {
+    background: #fff;
+    border-bottom: 2px solid #E2E8F0;
+}
+.avatar,
+.avatar-lg {
     position: relative;
     border-radius: 50%;
     overflow: hidden;
+}
+.avatar {
+    width: 50px;
+    height: 50px;
+}
+.avatar-lg {
+    width: 150px;
+    height: 150px;
 }
 .avatar img {
     display: flex;
@@ -51,15 +73,41 @@
     padding: 1em;
     border-radius: 8px;
     z-index: 3;
-    overflow: auto;
     max-height: 450px;
     height: 80%;
-    scrollbar-width: none;
 }
 .success {
     width: auto;
     height: auto;
 }
+.form-add {
+    overflow: auto;
+    scrollbar-width: none;
+}
+.popup-user {
+    padding: 0;
+    background: #CBD5E0;
+}
+.popup-user .main-info {
+    background: #fff;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+.popup-user .info-group {
+    height: 200px;
+    padding: 0 1em;
+    overflow: auto;
+    scrollbar-width: none;
+}
+.popup-user .label {
+    color: #4A5568;
+}
+.popup-user .value {
+    color: #1A202C;
+
+}
+
 /* Animation */
 @keyframes show {
     from{top:100%}

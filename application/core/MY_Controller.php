@@ -1,5 +1,6 @@
 <?php
-class MY_Controller extends CI_Controller {
+class MY_Controller extends CI_Controller
+{
     public function __contruct()
     {
         parent::__contruct();
@@ -7,25 +8,6 @@ class MY_Controller extends CI_Controller {
     public function view($data = '')
     {
         $this->load->view('partical/master_layout', $data);
-    }
-    public function process_input($extra_fields = array())
-    {
-        $result = array();
-        $field = $_POST;
-        
-        foreach($field as $key => $value) {
-            $result = array_merge($result, array($key => $value));
-        }
-        // Remove submit input
-        array_pop($result);
-        // Add extra field, usually for input type file since file need to upload first
-        if(sizeof($extra_fields) > 0) {
-            foreach($extra_fields as $key => $value) {
-                $result = array_merge($result, array($key => $value));
-            }
-        }
-
-        return $result;
     }
     public function pagination($base_url)
     {
@@ -37,30 +19,30 @@ class MY_Controller extends CI_Controller {
 
         $config['first_link'] = 'Về đầu';
         $config['last_link'] = 'Về cuối';
-        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-        $config['cur_tag_close']    = '</span></li>';
-        $config['next_tag_open']    = '<li class="page-item">';
-        $config['next_tag_close']   = '</li>';
-        $config['prev_tag_open']    = '<li class="page-item">';
-        $config['prev_tag_close']   = '</li>';
-        $config['num_tag_open']     = '<li class="page-item">';
-        $config['num_tag_close']    = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close'] = '</span></li>';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
         $config['attributes'] = array('class' => 'page-link');
 
-        $config['use_page_numbers'] = TRUE;
+        $config['use_page_numbers'] = true;
 
         $this->pagination->initialize($config);
-        
+
         return $this->pagination->create_links();
     }
     public function image_upload($input_name)
     {
         $config['allowed_types'] = 'gif|jpg|png';
-        $config['upload_path']   = 'upload';
-        $config['max_size']      = 1024;
+        $config['upload_path'] = 'upload';
+        $config['max_size'] = 1024;
 
         $this->load->library('upload', $config);
-        if($this->upload->do_upload($input_name)) {
+        if ($this->upload->do_upload($input_name)) {
             $image = $this->upload->data();
             return $image['file_name'];
         }

@@ -9,7 +9,7 @@ function clientIsValid() {
         var msg = '';
 
         // Catch err if input fields are not submit button
-        if($(this).attr('name') !== 'submit') {
+        if($(this).attr('name') !== 'submit' && $(this).attr('name') !== 'dob_holder') {
             if($(this).val() === ''){
                 // Empty field
                 msg = 'Trường này không được bỏ trống';
@@ -75,11 +75,19 @@ $('#btn-add').click(function() {
     $('.form-add').addClass('show');
 });
 
+$('.table tbody tr').click(function(){
+    $('html').css('overflow','hidden');
+    $('#overlay-bg').addClass('show');
+    $('.popup-user').addClass('show');
+})
+
 $('#overlay-bg').click(function() {
     $('html').css('overflow','auto');
     $('#overlay-bg').removeClass('show');
+    $('.popup-user').removeClass('show');
     $('.form-add').removeClass('show');
     $('.success').removeClass('show');
+    $('p.err').remove();
 });
 
 $('#submit').click(function(event){
@@ -100,30 +108,28 @@ $('#submit').click(function(event){
             success: function(data)
             {
                 var jsonData = JSON.parse(data);
-                switch(jsonData.status) {
-                    case 'ok':
-                        console.log('Thành công');
+                if(jsonData.type === 'ok') {
+                    console.log('Thành công');
 
-                        $('html').css('overflow','auto');
-                        $('.form-add').trigger('reset');
-                        $('.form-add').removeClass('show');
-                        $('.success').addClass('show');
-                        break;
-                    case 'valid_error':
+                    $('html').css('overflow','auto');
+                    $('.form-add').trigger('reset');
+                    $('.form-add').removeClass('show');
+                    $('.success').addClass('show');
+                } else {
+                    if(jsonData.message === 'validate error') {
                         console.log('CI validate err');
                         $(".form-add").animate({ scrollTop: 0 }, "slow");
-                        $.each(jsonData.track_err, function(key, value) {
+                        $.each(jsonData.validate, function(key, value) {
                             $('.form-add :input').each(function(){
                                 if($(this).attr('name') === key && value !== '') {
                                     showErr($(this), value);
                                 }
                             });
                         });
-                        break;
-                    case 'add_error':
-                        console.log('Add err');
+                    } else {
+                        console.log('add err');
                         $(".form-add").animate({ scrollTop: 0 }, "slow");
-                        break;
+                    }
                 }
             }
         })
