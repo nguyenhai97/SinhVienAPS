@@ -1,16 +1,17 @@
 <div class="container">
     <!-- Headline -->
-    <div class="row my-3">
+    <div class="row d-flex justify-content-between flex-wrap my-3 mx-1">
         <h3 class="text-title">Danh sách thành viên</h3>
-        <button class="btn ml-auto btn-primary" id="btn-add"><span style="margin-right: 0.5em"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path class="heroicon-ui" d="M19 10h2a1 1 0 0 1 0 2h-2v2a1 1 0 0 1-2 0v-2h-2a1 1 0 0 1 0-2h2V8a1 1 0 0 1 2 0v2zM9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5v2z"/></svg></span><span>Thêm thành viên</span></button>
+        <button class="btn btn-primary" id="btn-add"><span style="margin-right: 0.5em"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path class="heroicon-ui" d="M19 10h2a1 1 0 0 1 0 2h-2v2a1 1 0 0 1-2 0v-2h-2a1 1 0 0 1 0-2h2V8a1 1 0 0 1 2 0v2zM9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5v2z"/></svg></span><span>Thêm thành viên</span></button>
     </div>
     <!-- Data Table -->
     <div class="table-responsive">
-        <table class="table table-borderless">
+        <table class="table table-hover table-borderless">
             <thead>
                 <tr>
                     <th nowrap class="text-uppercase text-gray basic_info">Thông tin cơ bản</th>
                     <th nowrap class="text-uppercase text-gray address">Địa chỉ</th>
+                    <th nowrap class="text-uppercase text-gray address">Điện thoại</th>
                     <th nowrap class="text-uppercase text-gray bio">Giới tính</th>
                     <th nowrap class="text-uppercase text-gray dob">Ngày sinh</th>
                     <th nowrap class="text-uppercase text-gray course">lớp</th>
@@ -19,6 +20,7 @@
             <tbody>
                 <?php foreach ($students as $student): ?>
                 <tr>
+                    <td class="uid d-none"><?=$student->id?></td>
                     <td class="d-flex">
                         <div class="avatar mr-2">
                             <img src="<?=base_url('upload/' . $student->image)?>" alt="avatar" width="50px">
@@ -28,13 +30,17 @@
                             <div class="email text-muted"><?=$student->email?></div>
                         </div>
                     </td>
-                    <td class="text-capitalize address"><?=$student->address?></td>
+                    <td nowrap class="text-capitalize address"><?=$student->address?></td>
+                    <td nowrap class="phone"><?=$student->phone?></td>
                     <td class="bio"><?=($student->bio == 1) ? 'Nam' : 'Nữ'?></td>
                     <td class="dob"><?php
-$date = new DateTime($student->dob);
-echo $date->format('d/m/Y');
-?></td>
+                        $date = new DateTime($student->dob);
+                        echo $date->format('d/m/Y');
+                    ?></td>
                     <td class="course"><?=$student->course?></td>
+                    <td style="width:70px">
+                        <p class="remove text-danger">Xóa</p>
+                    </td>
                 </tr>
                 <?php endforeach?>
             </tbody>
@@ -88,8 +94,8 @@ echo $date->format('d/m/Y');
             <label for="avatar">Ảnh</label>
             <input name="avatar" class="w-100" type="file" id="avatar">
         </div>
-        <div style="text-align: center;">
-            <input type="submit" name="submit" class="btn btn-primary mb-2" id="submit" value="Thêm thành viên">
+        <div class="form-group" style="text-align: center;">
+            <input type="submit" name="submit" class="btn btn-primary" id="add" value="Thêm thành viên">
         </div>
     </form>
     <!-- Success Message -->
@@ -106,29 +112,29 @@ echo $date->format('d/m/Y');
                 <div class="avatar-lg mx-auto">
                     <img src="<?=base_url('upload/' . $student->image)?>" alt="avatar" width="150px">
                 </div>
-                <div class="fullname text-lg font-weight-bold">Nguyễn Văn A</div>
-                <div class="email text-sm text-muted">nva@gmail.com</div>
+                <div class="fullname text-lg font-weight-bold">...</div>
+                <div class="email text-sm text-muted">...</div>
             </div>
             <div class="info-group">
                 <div class="item d-flex justify-content-between py-2">
                     <div class="label">Ngày tháng năm sinh:</div>
-                    <div class="value">17/03/1997</div>
+                    <div class="dob value">...</div>
                 </div>
                 <div class="item d-flex justify-content-between py-2">
                     <div class="label">Giới tính:</div>
-                    <div class="value">Nam</div>
+                    <div class="bio value">...</div>
                 </div>
                 <div class="item d-flex justify-content-between py-2">
                     <div class="label">Địa chỉ:</div>
-                    <div class="value">ABC</div>
+                    <div class="address value">...</div>
                 </div>
                 <div class="item d-flex justify-content-between py-2">
                     <div class="label">Số điện thoại:</div>
-                    <div class="value">0987654321</div>
+                    <div class="phone value">...</div>
                 </div>
                 <div class="item d-flex justify-content-between py-2">
                     <div class="label">Lớp học:</div>
-                    <div class="value">CNTT-K14C</div>
+                    <div class="course value">...</div>
                 </div>
             </div>
             <div class="fab">
