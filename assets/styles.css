@@ -35,21 +35,15 @@ body {
 .err::first-letter {
     text-transform: uppercase;
 }
-.table td, .table th {
-    vertical-align: middle;
-}
-.table tbody tr:hover {
+#myTable tbody tr:hover {
     cursor: pointer;
 }
-.table tbody tr {
-    background: #fff;
-    border-bottom: 2px solid #E2E8F0;
+#myTable tbody tr:hover td:last-child {
+    color: #dc3545;
+    text-decoration: underline;
 }
-.table .remove {
-    display: none;
-}
-.table tbody tr:hover .remove{
-    display: inline;
+#myTable tbody tr td:last-child {
+    color: #fff;
 }
 .avatar,
 .avatar-lg {

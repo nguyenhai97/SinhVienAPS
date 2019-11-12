@@ -19,6 +19,11 @@ class Student extends MY_Controller
 
         parent::view($data);
     }
+    public function newestData($current_page = 1)
+    {
+        $result = array("data" => $this->student_model->get_student_info(item_index(5, $current_page)));
+        echo json_encode($result);
+    }
     public function process_input()
     {
         // Loop through input and validate

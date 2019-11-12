@@ -110,74 +110,6 @@ $(document).ready(function(){
         $('.form-add #add').attr('name', 'add')
         $('.form-add #add').val('Thêm thành viên')
     });
-    
-    $('.table tr td:not(:last-child)').click(function(){
-        //load user data
-        var uid = $(this).parent().find('.uid').html();
-
-        $.ajax({
-            url: 'http://localhost/SinhVienAPS/index.php/student/info/' + uid,
-            type: 'GET',
-            success: function (data) {
-                var jsonData = JSON.parse(data);
-                console.log(jsonData.fullname);
-                currentUser = {
-                    id: jsonData.id,
-                    fullname: jsonData.fullname,
-                    address: jsonData.address,
-                    bio: jsonData.bio,
-                    course: jsonData.course,
-                    image: jsonData.image,
-                    email: jsonData.email,
-                    phone: jsonData.phone,
-                    dob: jsonData.dob
-                }
-                var imageLocation = 'http://' + location.hostname + '/SinhVienAPS/upload/' + currentUser.image;
-                $('.popup-user .avatar-lg img').attr('src', imageLocation);
-
-                $('.popup-user .address').html(currentUser.address);
-                if (currentUser.bio == 1) {
-                    $('.popup-user .bio').html('Nam');
-                } else {
-                    $('.popup-user .bio').html('Nữ');
-                }
-                $('.popup-user .course').html(currentUser.course);
-                $('.popup-user .dob').html(currentUser.dob);
-                $('.popup-user .email').html(currentUser.email);
-                $('.popup-user .fullname').html(currentUser.fullname);
-                $('.popup-user .phone').html(currentUser.phone);
-                
-                $('html').css('overflow','hidden');
-                $('#overlay-bg').addClass('show');
-                $('.popup-user').addClass('show');
-            }
-        })
-
-    });
-    
-    $('.table .remove').click(function(){
-        var userID = $(this).parent().parent().find('.uid').text();
-        console.log('user id: ' + userID);
-        if(confirm("Xóa người dùng này ?")) {
-            console.log('chọn xoá');
-            $.ajax({
-                url:  'http://localhost/SinhVienAPS/index.php/student/delete/' + userID,
-                type: 'GET',
-                success: function(data)
-                {
-                    var jsonData = JSON.parse(data);
-                    if(jsonData.type === 'success') {
-                        console.log('Thành công');
-                        location.reload();
-                    } else {
-                        console.log('Không thành công');
-                    }
-                }
-            })
-        } else {
-            console.log('hủy chọn xóa');
-        }
-    });
 
     $('.fab').click(function(){
         $('.form-add input[name="id"]').remove();
@@ -314,4 +246,92 @@ $(document).ready(function(){
         }
         $(".form-add").animate({ scrollTop: 0 }, "slow");
     })
+
+    var table = $('#myTable').DataTable( {
+        "ajax": "http://localhost/SinhVienAPS/Student/newestData/1",
+        "columns": [
+            { "data": "fullname" },
+            { "data": "email" },
+            { "data": "phone" },
+            { "data": "address" },
+            { "data": "bio" },
+            { "data": "dob" },
+            { "data": "course" },
+            { "data": null, "defaultContent": "Xóa" },
+        ],
+        "columnDefs": [
+            {
+                "orderable": false,
+                "targets": -1,
+            }
+        ],
+        "pageLength": 5,
+        "searching": false,
+        "info": false
+    } );
+
+    $(document).on('click', '#myTable tr td:not(:last-child)', function(event) {
+        var uid = table.row(this).data().id;
+
+        $.ajax({
+            url: 'http://localhost/SinhVienAPS/index.php/student/info/' + uid,
+            type: 'GET',
+            success: function (data) {
+                var jsonData = JSON.parse(data);
+                console.log(jsonData.fullname);
+                currentUser = {
+                    id: jsonData.id,
+                    fullname: jsonData.fullname,
+                    address: jsonData.address,
+                    bio: jsonData.bio,
+                    course: jsonData.course,
+                    image: jsonData.image,
+                    email: jsonData.email,
+                    phone: jsonData.phone,
+                    dob: jsonData.dob
+                }
+                var imageLocation = 'http://' + location.hostname + '/SinhVienAPS/upload/' + currentUser.image;
+                $('.popup-user .avatar-lg img').attr('src', imageLocation);
+
+                $('.popup-user .address').html(currentUser.address);
+                if (currentUser.bio == 1) {
+                    $('.popup-user .bio').html('Nam');
+                } else {
+                    $('.popup-user .bio').html('Nữ');
+                }
+                $('.popup-user .course').html(currentUser.course);
+                $('.popup-user .dob').html(currentUser.dob);
+                $('.popup-user .email').html(currentUser.email);
+                $('.popup-user .fullname').html(currentUser.fullname);
+                $('.popup-user .phone').html(currentUser.phone);
+                
+                $('html').css('overflow','hidden');
+                $('#overlay-bg').addClass('show');
+                $('.popup-user').addClass('show');
+            }
+        })
+    });
+
+    $(document).on('click', '#myTable tr td:last-child', function(event) {
+        var uid = table.row(this).data().id;
+
+        if(confirm("Xóa người dùng này ?")) {
+            console.log('chọn xoá');
+            $.ajax({
+                url:  'http://localhost/SinhVienAPS/index.php/student/delete/' + uid,
+                type: 'GET',
+                success: function(data)
+                {
+                    var jsonData = JSON.parse(data);
+                    if(jsonData.type === 'success') {
+                        console.log('Thành công');
+                    } else {
+                        console.log('Không thành công');
+                    }
+                }
+            })
+        } else {
+            console.log('hủy chọn xóa');
+        }
+    });
 });
