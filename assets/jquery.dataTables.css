@@ -399,11 +399,11 @@ table.dataTable td {
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    color: #fff !important;
-    background-color: #2B6CB0;
+    color: #ffff00 !important;
+    background-color: #283593;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-    background-color: #2C5282;
+    background-color: #001064;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
@@ -417,13 +417,13 @@ table.dataTable td {
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    color: white !important;
-    background-color: #2C5282;
+    color: #ffff5a !important;
+    background-color: #001064;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:active {
     outline: none;
-    background-color: #2C5282;
+    background-color: #001064;
 }
 
 .dataTables_wrapper .dataTables_paginate .ellipsis {

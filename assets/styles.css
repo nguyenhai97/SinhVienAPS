@@ -184,3 +184,30 @@ body {
     from{width:250px}
     to{width:200px}
 }
+
+/* Alter Bootstrap */
+.custom-select {
+    width: auto;
+    border: 0;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+.custom-select:focus {
+    outline: none !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+    box-shadow: none;
+}
+.btn-primary {
+    border-radius: 50%;
+    font-size: 1.5em;
+    padding: 2px 13px;
+    background: #283593 !important;
+    color: #ffff5a;
+    border: 1px solid #283593;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+.btn-primary:hover {
+    color: #ffff5a;
+    background: #001064 !important;
+    border: 1px solid #001064;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}

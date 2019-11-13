@@ -1,7 +1,24 @@
 <div class="container">
     <!-- Headline -->
     <div class="row d-flex justify-content-between flex-wrap my-3 mx-1">
-        <h3 class="text-title">Danh sách thành viên</h3>
+        <div class="d-flex items-center">
+            <h3 class="text-title">Danh sách thành viên</h3>
+            <div class="filter ml-2">
+                <!-- fixed bio -->
+                <select name="filter-bio" class="custom-select" id="filter-bio">
+                    <option value="">Theo giới tính</option>
+                    <option value="1">Nam</option>
+                    <option value="0">Nữ</option>
+                </select>
+                <!-- Load lớp qua ajax -->
+                <select name="filter-course" class="custom-select ml-1" id="filter-course">
+                    <option value="">Theo lớp</option>
+                    <option value="">CNTT_K14C</option>
+                    <option value="">CNTT_K14D</option>
+                    <option value="">CNTT_K14E</option>
+                </select>
+            </div>
+        </div>
         <div class="d-flex">
             <div class="search mr-2">
                 <div class="h-100 position-relative">
@@ -10,7 +27,7 @@
                 </div>
             </div>
             <div class="add-member">
-                <button class="btn btn-primary" id="btn-add"><span style="margin-right: 0.5em"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path class="heroicon-ui" d="M19 10h2a1 1 0 0 1 0 2h-2v2a1 1 0 0 1-2 0v-2h-2a1 1 0 0 1 0-2h2V8a1 1 0 0 1 2 0v2zM9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5v2z"/></svg></span><span>Thêm thành viên</span></button>
+                <button class="btn btn-primary" id="btn-add">+</button>
             </div>
         </div>
     </div>

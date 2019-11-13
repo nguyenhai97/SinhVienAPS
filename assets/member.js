@@ -191,15 +191,15 @@ $(document).ready(function(){
             }
         ],
         "language": {
-            "info":           "Hiển thị từ _START_ tới _END_ trong số _TOTAL_ bản ghi",
-            "infoEmpty":      "Hiển thị từ 0 tới 0 trong số 0 bản ghi",
-            "infoFiltered":   "(Lọc từ _MAX_ bản ghi)",
-            "zeroRecords":    "Không tìm thấy bản ghi",
-            "loadingRecords": "Đang load dữ liệu...",
-            "processing":     "Đang xử lý...",
+            "info": "<span class='text-muted'>Hiển thị từ <b class='text-dark'>_START_</b> tới <b class='text-dark'>_END_</b> trong số <b class='text-dark'>_TOTAL_</b> bản ghi</span>",
+            "infoEmpty": "<span class='text-muted'>Hiển thị từ <b class='text-dark'>0</b> tới <b class='text-dark'>0</b> trong số <b>0</b> bản ghi</span>",
+            "infoFiltered": "<span class='text-muted'>(Lọc từ <b class='text-dark'>_MAX_</b> bản ghi)</span>",
+            "zeroRecords": "<span class='text-muted'>Không tìm thấy bản ghi</span>",
+            "loadingRecords": "<span class='text-muted'>Đang load dữ liệu...</span>",
+            "processing": "<span class='text-muted'>Đang xử lý...</span>",
             "paginate": {
-                "next":       "Tiếp theo",
-                "previous":   "Trước đó"
+                "next": "Tiếp theo",
+                "previous": "Trước đó"
             },
         },
         "dom": "t<'d-flex justify-content-between mt-2'i p>",
