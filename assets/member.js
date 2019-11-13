@@ -149,6 +149,70 @@ $(document).ready(function(){
         $('.form-add').trigger('reset');
     });
     
+    var table = $('#myTable').DataTable({
+        "serverSide": true,
+        "ajax": "http://localhost/SinhVienAPS/Student/newestData",
+        "columns": [
+            { "data": "fullname" },
+            { "data": "phone" },
+            { "data": "address" },
+            { "data": "bio" },
+            { "data": "dob" },
+            { "data": "course" },
+            { "data": null, "defaultContent": "Xóa" }
+        ],
+        "columnDefs": [
+            {
+                "orderable": false,
+                "targets": -1,
+            },
+            {
+                "targets": 3,
+                "render": function (data, type, row) {
+                    if(data === '1') {
+                        return 'Nam';
+                    }
+                    return 'Nữ'
+                }
+            },
+            {
+                "targets": 0,
+                "render": function (data, type, row) {
+                    return '<div class="d-flex">\
+                        <div class="avatar mr-2">\
+                            <img src="http://localhost/SinhVienAPS/upload/' + row['image'] + '" alt="avatar" width="50px">\
+                        </div>\
+                        <div class="info">\
+                            <div class="name">' + data + '</div>\
+                            <div class="email text-muted">' + row['email'] + '</div>\
+                        </div>\
+                    </div>';
+                }
+            }
+        ],
+        "language": {
+            "info":           "Hiển thị từ _START_ tới _END_ trong số _TOTAL_ bản ghi",
+            "infoEmpty":      "Hiển thị từ 0 tới 0 trong số 0 bản ghi",
+            "infoFiltered":   "(Lọc từ _MAX_ bản ghi)",
+            "zeroRecords":    "Không tìm thấy bản ghi",
+            "loadingRecords": "Đang load dữ liệu...",
+            "processing":     "Đang xử lý...",
+            "paginate": {
+                "next":       "Tiếp theo",
+                "previous":   "Trước đó"
+            },
+        },
+        "dom": "t<'d-flex justify-content-between mt-2'i p>",
+        "deferRender": true,
+        "pageLength": 5,
+    });
+
+    // Search
+    $(document).on('keyup', '#search-input', function() {
+        table.search( this.value ).draw();
+    });
+
+    // Create
     $(document).on('click', '#add', function(event){
         event.preventDefault();
         
@@ -171,11 +235,11 @@ $(document).ready(function(){
                     if(jsonData.type === 'success') {
                         console.log('Thành công');
     
-                        // $('html').css('overflow','auto');
-                        // $('.form-add').trigger('reset');
-                        // $('.form-add').removeClass('show');
-                        // $('.success').addClass('show');
-                        location.reload();
+                        $('html').css('overflow','auto');
+                        $('.form-add').trigger('reset');
+                        $('.form-add').removeClass('show');
+                        $('.success').addClass('show');
+                        table.order([[ 0, 'asc' ]]).draw(false);
                     } else {
                         if(jsonData.message === 'validate error') {
                             console.log('CI validate err');
@@ -198,78 +262,7 @@ $(document).ready(function(){
         $(".form-add").animate({ scrollTop: 0 }, "slow");
     })
 
-    $(document).on('click', '#edit', function(event){
-        event.preventDefault();
-        
-        $('#overlay-bg').addClass('show');
-        $('.form-add').addClass('show');
-        $('p.err').remove();
-        
-        // Client-side validate
-        // clientIsValid()
-        if(clientIsValid()) {
-            $.ajax({
-                url:  'http://localhost/SinhVienAPS/index.php/student/update/' + currentUser.id,
-                type: 'POST',
-                data: formData(),
-                processData: false,
-                contentType: false,
-                success: function(data)
-                {
-                    var jsonData = JSON.parse(data);
-                    if(jsonData.type === 'success') {
-                        console.log('Thành công');
-    
-                        $('html').css('overflow','auto');
-                        $('.form-add').trigger('reset');
-                        $('.form-add').removeClass('show');
-                        $('.success').addClass('show');
-                        location.reload();
-                    } else {
-                        if(jsonData.message === 'validate error') {
-                            console.log('CI validate err');
-                            $(".form-add").animate({ scrollTop: 0 }, "slow");
-                            $.each(jsonData.validate, function(key, value) {
-                                $('.form-add :input').each(function(){
-                                    if($(this).attr('name') === key && value !== '') {
-                                        showErr($(this), value);
-                                    }
-                                });
-                            });
-                        } else {
-                            console.log('update err');
-                            $(".form-add").animate({ scrollTop: 0 }, "slow");
-                        }
-                    }
-                }
-            })
-        }
-        $(".form-add").animate({ scrollTop: 0 }, "slow");
-    })
-
-    var table = $('#myTable').DataTable( {
-        "ajax": "http://localhost/SinhVienAPS/Student/newestData/1",
-        "columns": [
-            { "data": "fullname" },
-            { "data": "email" },
-            { "data": "phone" },
-            { "data": "address" },
-            { "data": "bio" },
-            { "data": "dob" },
-            { "data": "course" },
-            { "data": null, "defaultContent": "Xóa" },
-        ],
-        "columnDefs": [
-            {
-                "orderable": false,
-                "targets": -1,
-            }
-        ],
-        "pageLength": 5,
-        "searching": false,
-        "info": false
-    } );
-
+    // Read
     $(document).on('click', '#myTable tr td:not(:last-child)', function(event) {
         var uid = table.row(this).data().id;
 
@@ -312,6 +305,58 @@ $(document).ready(function(){
         })
     });
 
+    // Edit
+    $(document).on('click', '#edit', function(event){
+        event.preventDefault();
+        
+        $('#overlay-bg').addClass('show');
+        $('.form-add').addClass('show');
+        $('p.err').remove();
+        
+        // Client-side validate
+        // clientIsValid()
+        if(clientIsValid()) {
+            $.ajax({
+                url:  'http://localhost/SinhVienAPS/index.php/student/update/' + currentUser.id,
+                type: 'POST',
+                data: formData(),
+                processData: false,
+                contentType: false,
+                success: function(data)
+                {
+                    var jsonData = JSON.parse(data);
+                    if(jsonData.type === 'success') {
+                        console.log('Thành công');
+    
+                        $('html').css('overflow','auto');
+                        $('.form-add').trigger('reset');
+                        $('.form-add').removeClass('show');
+                        $('.success').addClass('show');
+                        
+                        table.order([[ 0, 'asc' ]]).draw(false);
+                    } else {
+                        if(jsonData.message === 'validate error') {
+                            console.log('CI validate err');
+                            $(".form-add").animate({ scrollTop: 0 }, "slow");
+                            $.each(jsonData.validate, function(key, value) {
+                                $('.form-add :input').each(function(){
+                                    if($(this).attr('name') === key && value !== '') {
+                                        showErr($(this), value);
+                                    }
+                                });
+                            });
+                        } else {
+                            console.log('update err');
+                            $(".form-add").animate({ scrollTop: 0 }, "slow");
+                        }
+                    }
+                }
+            })
+        }
+        $(".form-add").animate({ scrollTop: 0 }, "slow");
+    })
+
+    // Delete
     $(document).on('click', '#myTable tr td:last-child', function(event) {
         var uid = table.row(this).data().id;
 
@@ -325,6 +370,7 @@ $(document).ready(function(){
                     var jsonData = JSON.parse(data);
                     if(jsonData.type === 'success') {
                         console.log('Thành công');
+                        table.order([[ 0, 'asc' ]]).draw(false);
                     } else {
                         console.log('Không thành công');
                     }

@@ -8,10 +8,13 @@ class MY_Model extends CI_Model
         $this->load->database();
         $this->tableName = $table_name;
     }
-    public function getNewest($num_of_record, $start_index)
+    public function getNewest($data)
     {
-        $this->db->order_by("id", "desc");
-        $query = $this->db->get($this->tableName, $num_of_record, $start_index);
+        $this->db->order_by($data['sortColName'], $data['sortDirection']);
+        if(!empty($data['searchTerm'])) {
+            $this->db->like('fullname', $data['searchTerm']);
+        }
+        $query = $this->db->get($this->tableName, $data['length'], $data['start']);
         return $query->result();
     }
     public function get($id)

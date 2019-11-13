@@ -2,14 +2,23 @@
     <!-- Headline -->
     <div class="row d-flex justify-content-between flex-wrap my-3 mx-1">
         <h3 class="text-title">Danh sách thành viên</h3>
-        <button class="btn btn-primary" id="btn-add"><span style="margin-right: 0.5em"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path class="heroicon-ui" d="M19 10h2a1 1 0 0 1 0 2h-2v2a1 1 0 0 1-2 0v-2h-2a1 1 0 0 1 0-2h2V8a1 1 0 0 1 2 0v2zM9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5v2z"/></svg></span><span>Thêm thành viên</span></button>
+        <div class="d-flex">
+            <div class="search mr-2">
+                <div class="h-100 position-relative">
+                    <input type="text" placeholder="Tìm kiếm trong bảng" id="search-input">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="23" height="23" id="search-icon"><path class="heroicon-ui" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>
+                </div>
+            </div>
+            <div class="add-member">
+                <button class="btn btn-primary" id="btn-add"><span style="margin-right: 0.5em"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path class="heroicon-ui" d="M19 10h2a1 1 0 0 1 0 2h-2v2a1 1 0 0 1-2 0v-2h-2a1 1 0 0 1 0-2h2V8a1 1 0 0 1 2 0v2zM9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5v2z"/></svg></span><span>Thêm thành viên</span></button>
+            </div>
+        </div>
     </div>
     <!-- Data Table -->
     <table id="myTable" class="w-100">
         <thead>
             <tr>
-                <th>Họ và tên</th>
-                <th>Email</th>
+                <th>Thông tin cơ bản</th>
                 <th>Số điện thoại</th>
                 <th>Địa chỉ</th>
                 <th>Giới tính</th>
@@ -20,13 +29,7 @@
         </thead>
         <tbody>
         </tbody>
-    </table> 
-    <!-- Pagination -->
-    <nav class="d-flex justify-content-center">
-        <ul class="pagination">
-            <?php echo $pagination; ?>
-        </ul>
-    </nav>
+    </table>
     <!-- Form -->
     <?=form_open('', array('class' => 'form-add', 'id' => 'form-add'))?>
         <div class="form-group">
@@ -76,8 +79,8 @@
     <!-- Success Message -->
     <div class="success text-success-2">
         <div class="d-flex align-items-center">
-            <span class="mr-3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#22543D"><path class="heroicon-ui" d="M9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5v2zm-1.3-10.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"/></svg></span>
-            <span>Thêm thành công</span>
+            <span class="mr-3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30" fill="#22543D"><path class="heroicon-ui" d="M9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h5a5 5 0 0 1 5 5v2zm-1.3-10.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"/></svg></span>
+            <span style="font-size:1.5em">Thành công</span>
         </div>
     </div>
     <!-- User details -->
@@ -85,7 +88,7 @@
         <div class="inner position-relative">
             <div class="main-info text-center py-2">
                 <div class="avatar-lg mx-auto">
-                    <img src="http://locahost/upload/fallback.png" alt="avatar" width="150px">
+                    <img src="http://localhost/SinhVienAPS/upload/fallback.png" alt="avatar" width="150px">
                 </div>
                 <div class="fullname text-lg font-weight-bold">...</div>
                 <div class="email text-sm text-muted">...</div>

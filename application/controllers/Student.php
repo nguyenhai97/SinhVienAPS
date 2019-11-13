@@ -8,20 +8,57 @@ class Student extends MY_Controller
         parent::__construct();
         $this->lang->load('form_validation', 'vi');
         $this->load->model('student_model');
-        $this->load->helper(array('form', 'url', 'page'));
+        $this->load->helper(array('form', 'url'));
     }
-    public function index($current_page = 1)
+    public function index()
     {
         $data['title'] = "Danh sách sinh viên";
-        $data['students'] = $this->student_model->get_student_info(item_index(5, $current_page));
-        $data['pagination'] = parent::pagination('http://localhost/SinhVienAPS/page/');
         $data['page_layout'] = $this->load->view('student/index', $data, true);
 
         parent::view($data);
     }
-    public function newestData($current_page = 1)
+    public function newestData()
     {
-        $result = array("data" => $this->student_model->get_student_info(item_index(5, $current_page)));
+        $start = intval($this->input->get('start'));
+        $length = intval($this->input->get('length')) ? intval($this->input->get('length')) : 0;
+        $order = $this->input->get('order');
+        $searchTerm = $this->input->get('search')['value'];
+
+        $sortColIndex = 0;
+        $sortDirection = 'asc';
+
+        if(!empty($order)) {
+            $sortColIndex = $order[0]['column'];
+            $sortDirection = $order[0]['dir'];
+        }
+
+        $index2ColName = array(
+            0=>'fullname',
+            1=>'phone',
+            2=>'address',
+            3=>'bio',
+            4=>'dob',
+            5=>'course'
+        );
+
+        $data['start'] = $start;
+        $data['length'] = $length;
+        $data['sortColName'] = $index2ColName[$sortColIndex];
+        $data['sortDirection'] = $sortDirection;
+        if(!empty($searchTerm)) {
+            $data['searchTerm'] = $searchTerm;
+        }
+
+        $callbackData = $this->student_model->get_student_info($data);
+
+        $result = array(
+            "draw" => intval($this->input->get('draw')),
+            "recordsTotal" => $this->student_model->num_row(),
+            "recordsFiltered" => empty($searchTerm) ?
+                $this->student_model->num_row()
+                :sizeof($callbackData),
+            "data" => $callbackData
+        );
         echo json_encode($result);
     }
     public function process_input()

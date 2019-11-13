@@ -35,7 +35,11 @@ body {
 .err::first-letter {
     text-transform: uppercase;
 }
+#myTable tbody tr td{
+    padding: 12px 8px;
+}
 #myTable tbody tr:hover {
+    background: #ddd;
     cursor: pointer;
 }
 #myTable tbody tr:hover td:last-child {
@@ -44,6 +48,32 @@ body {
 }
 #myTable tbody tr td:last-child {
     color: #fff;
+}
+#search-input {
+    position: relative;
+    width: 200px;
+    height: 100%;
+    border-radius: 10px;
+    border: 0;
+    color: #4A5568;
+    background: #fff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    padding: 5px 10px 5px 32px;
+    animation: inexpandSearch .15s ease-in;
+}
+#search-input:focus {
+    width: 250px;
+    outline: none;
+    border: 1px solid #A0AEC0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    animation: expandSearch .15s ease-out;
+}
+#search-icon {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    fill: #A0AEC0;
 }
 .avatar,
 .avatar-lg {
@@ -146,4 +176,11 @@ body {
     from{top:100%}
     to{top:50%}
 }
-
+@keyframes expandSearch {
+    from{width:200px}
+    to{width:250px}
+}
+@keyframes inexpandSearch {
+    from{width:250px}
+    to{width:200px}
+}

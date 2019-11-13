@@ -4,9 +4,14 @@ class Student_model extends MY_Model {
     {
         parent::__construct("Student");
     }
-    public function get_student_info($start_index)
+    public function get_student_info($data)
     {
-        return parent::getNewest(5,$start_index);
+        $students = parent::getNewest($data);
+        foreach($students as $student) {
+            $date = new DateTime($student->dob);
+            $student->dob = $date->format('d/m/Y');
+        }
+        return $students;
     }
     public function get_student($id) {
         return parent::get($id);
