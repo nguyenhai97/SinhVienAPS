@@ -7,7 +7,7 @@ class Student_model extends MY_Model {
     public function get_student_info($data)
     {
         $students = parent::getNewest($data);
-        foreach($students as $student) {
+        foreach($students['data'] as $student) {
             $date = new DateTime($student->dob);
             $student->dob = $date->format('d/m/Y');
         }
@@ -15,6 +15,13 @@ class Student_model extends MY_Model {
     }
     public function get_student($id) {
         return parent::get($id);
+    }
+    public function getCourse()
+    {
+        $this->db->distinct();
+        $this->db->select('Course');
+        $query = $this->db->get("Student");
+        return $query->result();
     }
     public function add_student($data)
     {

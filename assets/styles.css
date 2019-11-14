@@ -17,6 +17,13 @@ body {
 .table td {
     padding: 1em;
 }
+.add-member {
+    border-radius: 50%;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+.add-member:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
 .text-title {
     color: #2C5282;
 }
@@ -125,6 +132,14 @@ body {
     max-height: 450px;
     height: 80%;
 }
+#wait{
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9;
+}
 .form-add::-webkit-scrollbar,
 .popup-user::-webkit-scrollbar {
     display: none;
@@ -203,11 +218,9 @@ body {
     background: #283593 !important;
     color: #ffff5a;
     border: 1px solid #283593;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
 }
 .btn-primary:hover {
     color: #ffff5a;
     background: #001064 !important;
     border: 1px solid #001064;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 }

@@ -150,6 +150,7 @@ $(document).ready(function(){
     });
     
     var table = $('#myTable').DataTable({
+        "processing": true,
         "serverSide": true,
         "ajax": "http://localhost/SinhVienAPS/Student/newestData",
         "columns": [
@@ -196,16 +197,42 @@ $(document).ready(function(){
             "infoFiltered": "<span class='text-muted'>(Lọc từ <b class='text-dark'>_MAX_</b> bản ghi)</span>",
             "zeroRecords": "<span class='text-muted'>Không tìm thấy bản ghi</span>",
             "loadingRecords": "<span class='text-muted'>Đang load dữ liệu...</span>",
-            "processing": "<span class='text-muted'>Đang xử lý...</span>",
+            "processing": "<span class='text-muted'>Đang xử lý...</span>\
+            </div>",
             "paginate": {
-                "next": "Tiếp theo",
-                "previous": "Trước đó"
+                "next": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path class='heroicon-ui' d='M18.59 13H3a1 1 0 0 1 0-2h15.59l-5.3-5.3a1 1 0 1 1 1.42-1.4l7 7a1 1 0 0 1 0 1.4l-7 7a1 1 0 0 1-1.42-1.4l5.3-5.3z'/></svg>",
+                "previous": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'><path class='heroicon-ui' d='M5.41 11H21a1 1 0 0 1 0 2H5.41l5.3 5.3a1 1 0 0 1-1.42 1.4l-7-7a1 1 0 0 1 0-1.4l7-7a1 1 0 0 1 1.42 1.4L5.4 11z'/></svg>"
             },
         },
-        "dom": "t<'d-flex justify-content-between mt-2'i p>",
+        "dom": "rt<'d-flex justify-content-between mt-2'i p>",
+        "scrollX": true,
         "deferRender": true,
         "pageLength": 5,
     });
+
+    // Get Courses
+    $.ajax({
+        url: "http://localhost/SinhVienAPS/Student/listCourse",
+        method: "GET",
+        success: function(data) {
+            var jsonData = JSON.parse(data);
+            $.each(jsonData, function(key, value){
+                $('#filter-course').append('<option value="'+value.Course+'">'+value.Course+'</option>');
+            })
+        }
+    })
+
+    // Filter Courses
+    $('#filter-course').change(function(){
+        table.columns(5).search(this.value).draw();
+        console.log(this.value)
+    })
+
+    // Filter Bio
+    $('#filter-bio').change(function(){
+        table.columns(3).search(this.value).draw();
+        console.log(this.value)
+    })
 
     // Search
     $(document).on('keyup', '#search-input', function() {
@@ -269,7 +296,7 @@ $(document).ready(function(){
         $.ajax({
             url: 'http://localhost/SinhVienAPS/index.php/student/info/' + uid,
             type: 'GET',
-            success: function (data) {
+            success: function(data) {
                 var jsonData = JSON.parse(data);
                 console.log(jsonData.fullname);
                 currentUser = {
@@ -301,7 +328,7 @@ $(document).ready(function(){
                 $('html').css('overflow','hidden');
                 $('#overlay-bg').addClass('show');
                 $('.popup-user').addClass('show');
-            }
+            },
         })
     });
 
@@ -379,5 +406,14 @@ $(document).ready(function(){
         } else {
             console.log('hủy chọn xóa');
         }
+    });
+
+    // show loading
+    $(document).bind("ajaxSend", function(){
+        $('.overlay-bg').show();
+        $("#wait").show();
+    }).bind("ajaxComplete", function(){
+        $("#wait").hide();
+        $('.overlay-bg').hide();
     });
 });

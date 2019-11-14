@@ -17,141 +17,6 @@ class Student extends MY_Controller
 
         parent::view($data);
     }
-    public function newestData()
-    {
-        $start = intval($this->input->get('start'));
-        $length = intval($this->input->get('length')) ? intval($this->input->get('length')) : 0;
-        $order = $this->input->get('order');
-        $searchTerm = $this->input->get('search')['value'];
-
-        $sortColIndex = 0;
-        $sortDirection = 'asc';
-
-        if(!empty($order)) {
-            $sortColIndex = $order[0]['column'];
-            $sortDirection = $order[0]['dir'];
-        }
-
-        $index2ColName = array(
-            0=>'fullname',
-            1=>'phone',
-            2=>'address',
-            3=>'bio',
-            4=>'dob',
-            5=>'course'
-        );
-
-        $data['start'] = $start;
-        $data['length'] = $length;
-        $data['sortColName'] = $index2ColName[$sortColIndex];
-        $data['sortDirection'] = $sortDirection;
-        if(!empty($searchTerm)) {
-            $data['searchTerm'] = $searchTerm;
-        }
-
-        $callbackData = $this->student_model->get_student_info($data);
-
-        $result = array(
-            "draw" => intval($this->input->get('draw')),
-            "recordsTotal" => $this->student_model->num_row(),
-            "recordsFiltered" => empty($searchTerm) ?
-                $this->student_model->num_row()
-                :sizeof($callbackData),
-            "data" => $callbackData
-        );
-        echo json_encode($result);
-    }
-    public function process_input()
-    {
-        // Loop through input and validate
-        $result = array();
-        $field = $this->input->post();
-
-        foreach ($field as $key => $value) {
-            $result = array_merge($result, array($key => $value));
-        }
-        // Remove submit input
-        array_pop($result);
-
-        return $result;
-    }
-    public function create()
-    {
-        $this->fields = $this->process_input();
-        // Remove duplicate date of birth
-        unset($this->fields['dob_holder']);
-        
-        if ($this->isValid()) {
-            $isUploaded = parent::image_upload('avatar');
-            $this->fields['image'] = ($isUploaded === false) ? 'fallback.png' : $isUploaded;
-
-            if ($this->student_model->add_student($this->fields)) {
-                $result = array(
-                    'type' => 'success',
-                    'message' => 'add success',
-                );
-            } else {
-                $result = array(
-                    'type' => 'error',
-                    'message' => 'add error',
-                );
-            }
-        }
-
-        echo json_encode($result);
-    }
-    public function info($id) {
-        $userInfo = $this->student_model->get_student($id)[0];
-        $date = new DateTime($userInfo->dob);
-        $userInfo->dob = $date->format('d/m/Y');
-        echo json_encode($userInfo);
-    }
-    public function update($id = NULL)
-    {
-        if(empty($id)) {
-            die();
-        }
-        $this->fields = $this->process_input();
-        // Remove duplicate date of birth
-        unset($this->fields['dob_holder']);
-        
-        if ($this->isValid('update')) {
-            $isUploaded = parent::image_upload('avatar');
-            // Only change image if user submit one
-            if($isUploaded !== false) {
-                $this->fields['image'] = $isUploaded;
-            }
-            unset($this->fields['avatar']);
-
-            if ($this->student_model->update_student($this->fields, $id)) {
-                $result = array(
-                    'type' => 'success',
-                    'message' => 'update success',
-                );
-            } else {
-                $result = array(
-                    'type' => 'error',
-                    'message' => 'update error',
-                );
-            }
-        }
-
-        echo json_encode($result);
-    }
-    public function delete($id) {
-        $result = array(
-            'type' => 'error',
-            'message' => 'delete error',
-        );
-        // DONE: gọi delete của MY_model
-        if($this->student_model->delete($id)) {
-            $result = array(
-                'type' => 'success',
-                'message' => $id .' is deleted',
-            );
-        }
-        echo json_encode($result);
-    }
     private function isValid($action = 'add')
     {
         $this->load->library('form_validation');
@@ -306,5 +171,157 @@ class Student extends MY_Controller
             $result = array_merge($result, array($item['field'] => form_error($item['field'])));
         }
         return $result;
+    }
+    public function process_input()
+    {
+        // Loop through input and validate
+        $result = array();
+        $field = $this->input->post();
+
+        foreach ($field as $key => $value) {
+            $result = array_merge($result, array($key => $value));
+        }
+        // Remove submit input
+        array_pop($result);
+
+        return $result;
+    }
+    public function newestData()
+    {
+        $start = intval($this->input->get('start'));
+        $length = intval($this->input->get('length')) ? intval($this->input->get('length')) : 0;
+        $order = $this->input->get('order');
+        $searchTerm = $this->input->get('search')['value'];
+        $columnOptions = $this->input->get('columns');
+
+        $sortColIndex = 0;
+        $sortDirection = 'asc';
+
+        if(!empty($order)) {
+            $sortColIndex = $order[0]['column'];
+            $sortDirection = $order[0]['dir'];
+        }
+
+        $index2ColName = array(
+            0=>'fullname',
+            1=>'phone',
+            2=>'address',
+            3=>'bio',
+            4=>'dob',
+            5=>'course'
+        );
+
+        $data['start'] = $start;
+        $data['length'] = $length;
+        $data['sortColName'] = $index2ColName[$sortColIndex];
+        $data['sortDirection'] = $sortDirection;
+        if(!empty($searchTerm)) {
+            $data['searchTerm'] = $searchTerm;
+        }
+
+        $filters = array();
+        foreach($columnOptions as $option) {
+            switch ($option['data']) {
+                case "bio":
+                    $filters['bio'] = $option['search']['value'];
+                break;
+                case "course":
+                    $filters['course'] = $option['search']['value'];
+                break;
+            }
+        }
+        $data['filters'] = $filters;
+
+        $callbackData = $this->student_model->get_student_info($data);
+
+        $result = array(
+            "draw" => intval($this->input->get('draw')),
+            "recordsTotal" => $this->student_model->num_row(),
+            "recordsFiltered" => $callbackData['num_rows'],
+            "data" => $callbackData['data']
+        );
+        echo json_encode($result);
+    }
+    public function listCourse()
+    {
+        $data = $this->student_model->getCourse();
+        echo json_encode($data);
+    }
+    public function create()
+    {
+        $this->fields = $this->process_input();
+        // Remove duplicate date of birth
+        unset($this->fields['dob_holder']);
+        
+        if ($this->isValid()) {
+            $isUploaded = parent::image_upload('avatar');
+            $this->fields['image'] = ($isUploaded === false) ? 'fallback.png' : $isUploaded;
+
+            if ($this->student_model->add_student($this->fields)) {
+                $result = array(
+                    'type' => 'success',
+                    'message' => 'add success',
+                );
+            } else {
+                $result = array(
+                    'type' => 'error',
+                    'message' => 'add error',
+                );
+            }
+        }
+
+        echo json_encode($result);
+    }
+    public function info($id) {
+        $userInfo = $this->student_model->get_student($id)[0];
+        $date = new DateTime($userInfo->dob);
+        $userInfo->dob = $date->format('d/m/Y');
+        echo json_encode($userInfo);
+    }
+    public function update($id = NULL)
+    {
+        if(empty($id)) {
+            die();
+        }
+        $this->fields = $this->process_input();
+        // Remove duplicate date of birth
+        unset($this->fields['dob_holder']);
+        
+        if ($this->isValid('update')) {
+            $isUploaded = parent::image_upload('avatar');
+            // Only change image if user submit one
+            if($isUploaded !== false) {
+                $this->fields['image'] = $isUploaded;
+            }
+            unset($this->fields['avatar']);
+
+            if ($this->student_model->update_student($this->fields, $id)) {
+                $result = array(
+                    'type' => 'success',
+                    'message' => 'update success',
+                );
+            } else {
+                $result = array(
+                    'type' => 'error',
+                    'message' => 'update error',
+                );
+            }
+        }
+
+        echo json_encode($result);
+    }
+    public function delete($id) {
+        $result = array(
+            'type' => 'error',
+            'message' => 'delete error',
+        );
+        // DONE: gọi delete của MY_model
+        if($this->student_model->delete($id)) {
+            $result = array(
+                'type' => 'success',
+                'message' => $id .' is deleted',
+            );
+        }
+        echo json_encode($result);
     }
 }

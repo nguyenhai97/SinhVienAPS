@@ -411,6 +411,7 @@ table.dataTable td {
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
     cursor: default;
     color: #666 !important;
+    fill: #666;
     border: 1px solid transparent;
     background: transparent;
     box-shadow: none
@@ -418,6 +419,7 @@ table.dataTable td {
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     color: #ffff5a !important;
+    fill: #ffff00;
     background-color: #001064;
 }
 
