@@ -412,7 +412,6 @@ table.dataTable td {
     cursor: default;
     color: #666 !important;
     fill: #666;
-    border: 1px solid transparent;
     background: transparent;
     box-shadow: none
 }
@@ -484,10 +483,6 @@ table.dataTable td {
     overflow: hidden;
     margin: 0 !important;
     padding: 0 !important
-}
-
-.dataTables_wrapper.no-footer .dataTables_scrollBody {
-    border-bottom: 1px solid #111
 }
 
 .dataTables_wrapper.no-footer div.dataTables_scrollHead table.dataTable,

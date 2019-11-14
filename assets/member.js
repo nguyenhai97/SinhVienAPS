@@ -6,9 +6,9 @@ $(document).ready(function(){
         currentInput.parent().find('p.err').text(msg);
     }
     
+    // TODO: Refactor this function
     function clientIsValid() {
         var err = [];
-        var msg ='';
 
         if($('.form-add #name').val() === '') {
             msg = 'Trường này không được để trống';
@@ -37,27 +37,26 @@ $(document).ready(function(){
 
         if($('.form-add #email').val() === '') {
             msg = 'Trường này không được để trống';
+            err.push({"key": "email", "value": msg});
         } else {
             var pattern = new RegExp(/\S+@\S+\.\S+/);
             if(!pattern.test($('.form-add #email').val())) {
                 msg = 'Email không hợp lệ';
+                err.push({"key": "phone", "value": msg});
             }
-        }
-        if(msg !== '') {
-            err.push({"key": "email", "value": msg});
         }
 
         if($('.form-add #phone').val() === '') {
             msg = 'Trường này không được để trống';
+            err.push({"key": "phone", "value": msg});
         } else {
             if(!$.isNumeric($('.form-add #phone').val())){
                 msg = 'Chỉ nhận dữ liệu kiểu số';
+                err.push({"key": "phone", "value": msg});
             } else if($('.form-add #phone').val().length < 10){
                 msg = 'Số điện thoải phải có 10 chữ số';
+                err.push({"key": "phone", "value": msg});
             }
-        }
-        if(msg !== '') {
-            err.push({"key": "phone", "value": msg});
         }
 
         if(err.length < 1) {
@@ -152,7 +151,13 @@ $(document).ready(function(){
     var table = $('#myTable').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "http://localhost/SinhVienAPS/Student/newestData",
+        "ajax": {
+            "url": "http://localhost/SinhVienAPS/Student/newestData",
+            "data": function (d) {
+                d.bio_filter = $('#filter-bio').val();
+                d.course_filter = $('#filter-course').val();
+            }
+        },
         "columns": [
             { "data": "fullname" },
             { "data": "phone" },
@@ -224,14 +229,12 @@ $(document).ready(function(){
 
     // Filter Courses
     $('#filter-course').change(function(){
-        table.columns(5).search(this.value).draw();
-        console.log(this.value)
+        table.order([[ 0, 'asc' ]]).draw(false);
     })
 
     // Filter Bio
     $('#filter-bio').change(function(){
-        table.columns(3).search(this.value).draw();
-        console.log(this.value)
+        table.order([[ 0, 'asc' ]]).draw(false);
     })
 
     // Search

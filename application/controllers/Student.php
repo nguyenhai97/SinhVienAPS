@@ -159,7 +159,7 @@ class Student extends MY_Controller
         $err = array(
             'type' => 'error',
             'message' => 'validate error',
-            'validate' => $this->generateErrorLog($fields)
+            'validate' => $this->generateErrorLog($rules)
         );
         echo json_encode($err);
         die();
@@ -192,7 +192,8 @@ class Student extends MY_Controller
         $length = intval($this->input->get('length')) ? intval($this->input->get('length')) : 0;
         $order = $this->input->get('order');
         $searchTerm = $this->input->get('search')['value'];
-        $columnOptions = $this->input->get('columns');
+        $bioFilter = $this->input->get('bio_filter');
+        $courseFilter = $this->input->get('course_filter');
 
         $sortColIndex = 0;
         $sortDirection = 'asc';
@@ -219,17 +220,12 @@ class Student extends MY_Controller
             $data['searchTerm'] = $searchTerm;
         }
 
-        $filters = array();
-        foreach($columnOptions as $option) {
-            switch ($option['data']) {
-                case "bio":
-                    $filters['bio'] = $option['search']['value'];
-                break;
-                case "course":
-                    $filters['course'] = $option['search']['value'];
-                break;
-            }
-        }
+        $filters = array(
+            "bio" => $bioFilter,
+            "course" => $courseFilter
+        );
+        
+
         $data['filters'] = $filters;
 
         $callbackData = $this->student_model->get_student_info($data);

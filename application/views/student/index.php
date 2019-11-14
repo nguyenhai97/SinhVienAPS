@@ -87,7 +87,7 @@
             <input name="avatar" class="w-100" type="file" id="avatar">
         </div>
         <div class="form-group" style="text-align: center;">
-            <input type="submit" name="submit" class="btn btn-primary" id="add" value="Thêm thành viên">
+            <input type="submit" name="submit" class="btn btn-info" id="add" value="Thêm thành viên">
         </div>
     </form>
     <!-- Success Message -->
